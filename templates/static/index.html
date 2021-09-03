@@ -8,6 +8,12 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="/home/cheems/Desktop/export excel/templates/static/excel/"><button>Download File</button></a>
+    <!-- <a href="/down/excel/95f06509-1fb3-4fa4-a6a8-a215202f2fd5">Download File</button></a>
+    <input type="button" value="Download" onclick="window.open('download_my_pdf')">
+    <a href="/excel/95f06509-1fb3-4fa4-a6a8-a215202f2fd5.xlsx" target="_blank">Download</a> -->
+    {% for p in obj %}
+    <a href="{{p.excel_file_upload.url}}" type="file">Download File</button></a>
+    {% endfor %}
+
 </body>
 </html>

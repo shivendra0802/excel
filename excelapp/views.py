@@ -9,6 +9,7 @@ from rest_framework.renderers import JSONRenderer
 from django.conf import settings
 import uuid
 from openpyxl import Workbook
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -24,7 +25,8 @@ class ExportView(APIView):
         print(settings.TEMPLATE_DIR)
         print(settings.BASE_DIR)
         path = settings.TEMPLATE_DIR
-        df.to_excel(f"{path}/static/excel/{uuid.uuid4()}.xlsx", encoding="UTF-8", index=False)
+        # df.to_excel(f"{path}/static/excel/{uuid.uuid4()}.xlsx", encoding="UTF-8", index=False)
+        df.to_excel(f"{path}/media/excel/{uuid.uuid4()}.xlsx", encoding="UTF-8", index=False)
         print(df.to_excel)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -35,26 +37,14 @@ class ExportView(APIView):
 
 def convert(request):
     path = 'settings.BASE_DIR'
-    df = pd.read_excel(open('path/expo.xlsx', index_col=0))
-    print(df)
-    return Http404
+    obj = ExcelFileUpload.objects.all()
+    return render(request, 'static/index.html',{'obj': obj})
+
+def download(request):
+    if request.method == POST:
+        obj = ExcelFileUpload.objects.all()
+        return render({'obj':obj})
 
 
 
-# from datetime import date, time
-# import 
 
-
-# def download(request, path):
-#     file_path = TEMPLATE_DIR + static + excel
-#     if os.path.exists(file_path):
-#         with open(file_path, 'rb') as fh:
-#             response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-#             response['Content-Disposition'] = 'inline; filename=95f06509-1fb3-4fa4-a6a8-a215202f2fd5.xlsx' + os.path.basename(file_path)
-#             context = {'fh': fh}
-#             return response(context)
-#     raise Http404
-
-
-# class FileView(APIView):
-#     def download(self)
